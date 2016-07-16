@@ -8,8 +8,16 @@ import tweepy
 import time
 import csv
 
+import sys
 
-accountvar = raw_input("Account name: ")
+if len(sys.argv)<2:
+    accountvar = raw_input("Account name: ")
+else:
+    accountvar = str(sys.argv[1])
+
+if accountvar[0]=="@":
+    print "stripping leading @ from username"
+    accountvar = accountvar[1:]
 #todo: upgrade this to read usernames from a file.
 print "searching for followers of "+accountvar
 
@@ -19,11 +27,8 @@ CONSUMER_KEY = keys['consumer_key']
 CONSUMER_SECRET = keys['consumer_secret']
 ACCESS_TOKEN = keys['access_token']
 ACCESS_TOKEN_SECRET = keys['access_token_secret']
-
-
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-#api = tweepy.API(auth)
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 #refer http://docs.tweepy.org/en/v3.2.0/api.html#API
 #tells tweepy.API to automatically wait for rate limits to replenish
